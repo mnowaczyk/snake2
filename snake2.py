@@ -131,7 +131,7 @@ if __name__ == "__main__":
                 except CrashError as e:
                     window.clear()
                     window.move(y, x-10)
-                    window.addstr(e.snake.name + ", Rozbiłeś się!")
+                    window.addstr(e.snake.name + " snake crashed!")
                     window.move(y+2, x-10)
                     window.addstr(snake1.name + ": %d" % len(snake1.blocks))
                     window.move(y+3, x-10)
