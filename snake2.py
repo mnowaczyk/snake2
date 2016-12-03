@@ -106,8 +106,8 @@ if __name__ == "__main__":
         
         k=curses.KEY_RIGHT
         food = Food(window)
-        snake1 = Snake(window, food, x, y, 'Czerwony', 1)
-        snake2 = Snake(window, food, x, y+3, 'Niebieski', 2)
+        snake1 = Snake(window, food, x, y, 'Red', 1)
+        snake2 = Snake(window, food, x, y+3, 'Blue', 2)
         
         loop_index = 0
         

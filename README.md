@@ -1,1 +1,1 @@
-One snake is directed with WASD, second with arrow keys
+The blue snake is directed with WASD, the red one with arrow keys
