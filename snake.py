@@ -38,7 +38,7 @@ class Snake:
         (h, w) = self.window.getmaxyx()
         x = int(w/2)
         y = int(h/2)
-        self.blocks = [[x, y], [x-1, y], [x-2, y], [x-3, y]]
+        self.blocks = [[x, y], [x-1, y], [x-2, y], [x-3, y], [x-4, y]]
         self.direction = self.DIR_RIGHT
     
     def draw(self):
@@ -66,6 +66,7 @@ class Snake:
         else:
             self.eaten-=1
         if newHead in self.blocks:
+            self.blocks.insert(0, newHead)
             raise CrashError()
         if newHead in self.food.blocks:
             self.food.blocks.remove(newHead)
@@ -112,6 +113,7 @@ try:
             window.refresh()
             time.sleep(5)
             break
+        window.move(0,0)
         window.refresh()
     
         c = window.getch()
