@@ -16,7 +16,10 @@ class Food:
     def draw(self):
         for block in self.blocks:
             window.move(block[1], block[0])
-            window.addstr('█', curses.color_pair(3))
+            try:
+                window.addstr('█', curses.color_pair(3))
+            except:
+                pass
 
     def addFood(self):
         (h, w) = self.window.getmaxyx()
@@ -44,7 +47,10 @@ class Snake:
     def draw(self):
         for block in self.blocks:
             window.move(block[1], block[0])
-            window.addstr('█', curses.color_pair(2))
+            try:
+                window.addstr('█', curses.color_pair(2))
+            except:
+                pass
         
     def move(self):
         head = self.blocks[0]
