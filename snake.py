@@ -121,11 +121,13 @@ try:
             break
         window.move(0,0)
         window.refresh()
-    
+
+        time.sleep(0.1)
+
         c = window.getch()
         if c !=curses.ERR:
             k = c
-    
+
         if k == curses.KEY_LEFT:
             snake.setDirection(Snake.DIR_LEFT)
         elif k == curses.KEY_RIGHT:
@@ -134,8 +136,8 @@ try:
             snake.setDirection(Snake.DIR_UP)
         elif k == curses.KEY_DOWN:
             snake.setDirection(Snake.DIR_DOWN)
-        
-        time.sleep(0.1)
+
+
 except KeyboardInterrupt:
     pass
 finally:
