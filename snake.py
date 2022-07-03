@@ -12,7 +12,6 @@ class Food:
     def __init__(self, window):
         self.window = window
         self.blocks = []
-        self.addFood()
     def draw(self):
         for block in self.blocks:
             window.move(block[1], block[0])
@@ -21,10 +20,13 @@ class Food:
             except:
                 pass
 
-    def addFood(self):
-        (h, w) = self.window.getmaxyx()
-        x = int(random.random() * w)
-        y = int(random.random() * h)
+    def addFood(self, blocked):
+        while True:
+            (h, w) = self.window.getmaxyx()
+            x = int(random.random() * w)
+            y = int(random.random() * h)
+            if not [x,y] in blocked:
+                break
         self.blocks.append([x,y])
         
 
@@ -34,14 +36,15 @@ class Snake:
     DIR_DOWN=3
     DIR_LEFT=4
     
-    def __init__(self, window, food):
+    def __init__(self, window):
         self.window = window
-        self.food = food
+        self.food = Food(window)
         self.eaten = 0
         (h, w) = self.window.getmaxyx()
         x = int(w/2)
         y = int(h/2)
         self.blocks = [[x, y], [x-1, y], [x-2, y], [x-3, y], [x-4, y]]
+        self.food.addFood(self.blocks)
         self.direction = self.DIR_RIGHT
     
     def draw(self):
@@ -51,6 +54,7 @@ class Snake:
                 window.addstr('█', curses.color_pair(2))
             except:
                 pass
+        self.food.draw()
         
     def move(self):
         head = self.blocks[0]
@@ -77,7 +81,7 @@ class Snake:
         if newHead in self.food.blocks:
             self.food.blocks.remove(newHead)
             self.eaten+=5
-            self.food.addFood()
+            self.food.addFood(self.blocks)
         self.blocks.insert(0, newHead)
     
     def setDirection(self, direction):
@@ -99,8 +103,8 @@ window.nodelay(1)
 try:
     
     k=curses.KEY_RIGHT
-    food = Food(window)
-    snake = Snake(window, food)
+
+    snake = Snake(window)
     (h, w) = window.getmaxyx()
     if w < 50 or h < 10:
         quit
@@ -111,13 +115,14 @@ try:
         try:
             snake.move()
             snake.draw()
-            food.draw()
         except CrashError:
             window.clear()
-            window.move(y, x-8)
-            window.addstr("GAME OVER! LENGTH: %d"%len(snake.blocks))
+            message = "GAME OVER! LENGTH: %d"%len(snake.blocks)
+            window.move(y, x - len(message)//2)
+            window.addstr(message, curses.color_pair(1) | curses.A_BLINK)
             window.refresh()
-            time.sleep(5)
+            window.nodelay(False)
+            window.getch()
             break
         window.move(0,0)
         window.refresh()
